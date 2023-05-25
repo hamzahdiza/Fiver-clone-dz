@@ -1,5 +1,5 @@
 "use client";
-import { categories } from "../utils/categories";
+import { categories } from "../../utils/categories";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React from "react";

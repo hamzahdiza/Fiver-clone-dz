@@ -1,10 +1,10 @@
-import Companies from "@/components/Companies";
-import Everything from "@/components/Everything";
-import FiverrBusiness from "@/components/FiverrBusiness";
-import HeroBanner from "@/components/HeroBanner";
-import JoinFiverr from "@/components/JoinFiverr";
-import PopularServices from "@/components/PopularServices";
-import Services from "@/components/Services";
+import Companies from "@/components/Home/Companies";
+import Everything from "@/components/Home/Everything";
+import FiverrBusiness from "@/components/Home/FiverrBusiness";
+import HeroBanner from "@/components/Home/HeroBanner";
+import JoinFiverr from "@/components/Home/JoinFiverr";
+import PopularServices from "@/components/Home/PopularServices";
+import Services from "@/components/Home/Services";
 import React from "react";
 
 const Index = () => {
