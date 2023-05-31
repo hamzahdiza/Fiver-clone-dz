@@ -1,6 +1,9 @@
+"use client";
 import Footer from "@/components/additional/Footer";
 import "./globals.css";
 import { Inter } from "next/font/google";
+import { StateProvider } from "@/context/StateContext";
+import reducer, { initialState } from "@/context/StateReducers";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -12,8 +15,10 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <div className={inter.className}>{children}</div>
-      <Footer />
+      <StateProvider initialState={initialState} reducer={reducer}>
+        <div className={inter.className}>{children}</div>
+        <Footer />
+      </StateProvider>
     </html>
   );
 }
