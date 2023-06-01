@@ -1,17 +1,43 @@
 import { useStateProvider } from "@/context/StateContext";
 import { reducerCases } from "@/context/constants";
+import { LOGIN_ROUTE, SIGNUP_ROUTE } from "@/utils/constants";
+import axios from "axios";
 import React, { useState } from "react";
+import { useCookies } from "react-cookie";
 import { FcGoogle } from "react-icons/fc";
 import { MdFacebook } from "react-icons/md";
 
 const AuthWrapper = ({ type }) => {
   const [{ showLoginModal, showSignupModal }, dispatch] = useStateProvider();
 
+  const [cookies, setCookies] = useCookies();
+
   const [values, setValues] = useState({ email: "", password: "" });
 
   const handleChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
+
+  const handleClick = async () => {
+    try {
+      const { email, password } = values;
+      if (email && password) {
+        const {
+          data: { user, jwt },
+        } = await axios.post(type === "login" ? LOGIN_ROUTE : SIGNUP_ROUTE, { email, password }, { withCredentials: true });
+        setCookies("jwt", { jwt: jwt });
+        dispatch({ type: reducerCases.CLOSE_AUTH_MODAL });
+
+        if (user) {
+          dispatch({ type: reducerCases.SET_USER, userInfo: user });
+          // window.location.reload();
+        }
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <div className="fixed top-0 z-[100]">
       <div className="h-[100vh] w-[100vw] backdrop-blur-md fixed top-0" id="blur-div"></div>
@@ -41,7 +67,7 @@ const AuthWrapper = ({ type }) => {
             <div className="flex flex-col gap-5">
               <input type="text" name="email" placeholder="Email / Username" className="border border-slate-300 p-3 w-80" onChange={handleChange} />
               <input type="password" placeholder="Password" className="border border-slate-300 p-3 w-80" name="password" onChange={handleChange} />
-              <button className="bg-[#1DBF73] text-white px-12 text-lg font-semibold rounded-r-md p-3 w-80" type="button">
+              <button className="bg-[#1DBF73] text-white px-12 text-lg font-semibold rounded-r-md p-3 w-80" type="button" onClick={handleClick}>
                 Continue
               </button>
             </div>
